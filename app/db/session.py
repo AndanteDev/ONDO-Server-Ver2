@@ -1,10 +1,13 @@
-from sqlalchemy import create_engine, MetaData
-from sqlalchemy.orm import sessionmaker, scoped_session
+from sqlalchemy import create_engine 
+from sqlalchemy.orm import scoped_session, sessionmaker 
+from sqlalchemy.ext.declarative import declarative_base 
 from app.config import CONFIG
 
+engine = create_engine(CONFIG.DATABASE_URL) 
+db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine)) 
 
-engine = create_engine(CONFIG.DATABASE_URL)
+Base = declarative_base() 
+Base.query = db_session.query_property() 
 
-sqlalchemy_session_factory = sessionmaker(bind=engine)
-
-metadata = MetaData()
+def init_db():  
+    Base.metadata.create_all(engine)

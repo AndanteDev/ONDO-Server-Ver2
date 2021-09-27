@@ -1,10 +1,10 @@
 from fastapi import FastAPI
-from app.db.mapper import start_mappers
+from app.db.session import init_db
 
 
 
 def init_orm():
-    start_mappers()
+    init_db()
 
 
 def create_app() -> FastAPI:
