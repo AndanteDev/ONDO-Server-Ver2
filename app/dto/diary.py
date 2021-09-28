@@ -17,7 +17,7 @@ class DiaryListRequestDto(BaseModel):
 
 
 class DiaryRetrieveRequestDto(BaseModel):
-    diary_id : int
+    diary_id: int
 
 
 class DiaryCardListRequesteDto(BaseModel):
@@ -29,7 +29,9 @@ class DiaryCountRequestDto(BaseModel):
 
 
 class DiaryUpdateRequestDto(BaseModel):
-    pass
+    context: str
+    emotion: Emotion
+    value: float
 
 
 class DiaryDeleteRequestDto(BaseModel):
@@ -38,7 +40,11 @@ class DiaryDeleteRequestDto(BaseModel):
 
 # response
 class DiaryCreateResponseDto(BaseModel):
-    pass
+    diary_id: int
+    context: str
+    emotion: Emotion
+    value: float
+    photos: list
 
 
 class DiaryListResponseDto(BaseModel):
