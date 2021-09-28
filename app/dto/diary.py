@@ -1,9 +1,14 @@
-from typing import Optional
+from typing import List, Optional
 from pydantic import BaseModel
+from ..models.diary import Emotion
+from fastapi import File, UploadFile
 
 # request
 class DiaryCreateRequestDto(BaseModel):
-    pass
+    context: str
+    emotion: Emotion
+    value: float
+    photos: Optional[List[UploadFile]]
 
 
 class DiaryListRequestDto(BaseModel):
