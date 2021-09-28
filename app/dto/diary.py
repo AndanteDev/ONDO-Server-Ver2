@@ -1,3 +1,4 @@
+from app import create_app
 from typing import List, Optional
 from pydantic import BaseModel
 from ..models.diary import Emotion
@@ -56,20 +57,33 @@ class DiaryListResponseDto(BaseModel):
 
 
 class DiaryRetrieveResponseDto(BaseModel):
-    pass
+    diary_id: int
+    context: str
+    emotion: Emotion
+    value: float
+    date: str
+    created_at: str
+    photos: list
 
 
 class DiaryCardListResponseDto(BaseModel):
-    pass
+    year: int
+    month: int
 
 
 class DiaryCountResponseDto(BaseModel):
-    pass
+    count: int
 
 
 class DiaryUpdateResponseDto(BaseModel):
-    pass
+    diary_id: int
+    context: str
+    emotion: Emotion
+    value: float
+    date: str
+    created_at: str
+    photos: list
 
 
 class DiaryDeleteResponseDto(BaseModel):
-    pass
+    message: str
