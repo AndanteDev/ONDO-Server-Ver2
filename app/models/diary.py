@@ -21,7 +21,7 @@ class Diary(Base):
     emotion = Column(Enum(Emotion))
     value = Column(Float)
     date = Column(Date)
-    created_at = Column(DateTime, nullable=False)
+    created_at = Column(DateTime, nullable=False, server_default=str(datetime.now()))
 
     def __init__(self, user_id, context, emotion, value, date):
         self.diary_id = None
