@@ -8,7 +8,7 @@ class DiaryCreateRequestDto(BaseModel):
     context: str
     emotion: Emotion
     value: float
-    photos: Optional[List[UploadFile]]
+    photos: Optional[List[UploadFile]] = []
 
 
 class DiaryListRequestDto(BaseModel):
@@ -17,7 +17,7 @@ class DiaryListRequestDto(BaseModel):
 
 
 class DiaryRetrieveRequestDto(BaseModel):
-    pass
+    diary_id : int
 
 
 class DiaryCardListRequesteDto(BaseModel):
