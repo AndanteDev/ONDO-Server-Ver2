@@ -12,7 +12,8 @@ class DiaryCreateRequestDto(BaseModel):
 
 
 class DiaryListRequestDto(BaseModel):
-    pass
+    year: Optional[int]
+    month: Optional[int]
 
 
 class DiaryRetrieveRequestDto(BaseModel):
