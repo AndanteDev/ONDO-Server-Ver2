@@ -15,8 +15,8 @@ class DiaryCreateRequestDto(BaseModel):
 
 class DiaryListRequestDto(BaseModel):
     user_id: int
-    year: Optional[int]
-    month: Optional[int]
+    year: Optional[int] = None
+    month: Optional[int] = None
 
 
 class DiaryRetrieveRequestDto(BaseModel):
