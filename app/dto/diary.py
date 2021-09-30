@@ -1,4 +1,3 @@
-from app import create_app
 from typing import List, Optional
 from pydantic import BaseModel
 from ..models.diary import Emotion
@@ -22,22 +21,10 @@ class DiaryRetrieveRequestDto(BaseModel):
     diary_id: int
 
 
-class DiaryCardListRequesteDto(BaseModel):
-    pass
-
-
-class DiaryCountRequestDto(BaseModel):
-    pass
-
-
 class DiaryUpdateRequestDto(BaseModel):
     context: str
     emotion: Emotion
     value: float
-
-
-class DiaryDeleteRequestDto(BaseModel):
-    pass
 
 
 # response
