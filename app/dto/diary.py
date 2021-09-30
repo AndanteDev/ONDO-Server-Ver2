@@ -5,6 +5,7 @@ from fastapi import File, UploadFile
 
 # request
 class DiaryCreateRequestDto(BaseModel):
+    user_id: int
     context: str
     emotion: Emotion
     value: float
