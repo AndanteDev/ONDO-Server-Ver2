@@ -40,11 +40,11 @@ def update_diary(
     pass
 
 
-def count_diary() -> DiaryCountResponseDto:
+def count_diary(user_id: int) -> DiaryCountResponseDto:
     pass
 
 
-def diary_card_list() -> DiaryCardListResponseDto:
+def diary_card_list(user_id: int) -> DiaryCardListResponseDto:
     pass
 
 
