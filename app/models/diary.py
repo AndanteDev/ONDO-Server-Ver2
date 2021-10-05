@@ -20,7 +20,7 @@ class Diary(Base):
     context = Column(TEXT)
     emotion = Column(Enum(Emotion))
     value = Column(Float)
-    date = Column(Date)
+    date = Column(Date, nullable=False)
     created_at = Column(DateTime, nullable=False, server_default=str(datetime.now()))
 
     def __init__(self, user_id, context, emotion, value, date):
