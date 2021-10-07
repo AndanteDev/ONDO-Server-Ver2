@@ -25,7 +25,9 @@ def save_changes(data):
         print(e)
 
 
-def save_new_diary(input_dto: DiaryCreateRequestDto) -> DiaryCreateResponseDto:
+def save_new_diary(
+    user_id: int, input_dto: DiaryCreateRequestDto
+) -> DiaryCreateResponseDto:
 
     today_diary = (
         db_session.query(Diary).filter(Diary.created_at == datetime.now()).first()
@@ -34,7 +36,7 @@ def save_new_diary(input_dto: DiaryCreateRequestDto) -> DiaryCreateResponseDto:
     if not today_diary:
 
         new_diary = Diary(
-            input_dto.user_id,
+            user_id,
             input_dto.context,
             input_dto.emotion,
             input_dto.value,
@@ -52,7 +54,6 @@ def save_new_diary(input_dto: DiaryCreateRequestDto) -> DiaryCreateResponseDto:
 
     response = {
         "diary_id": new_diary.diary_id,
-        "user_id": new_diary.user_id,
         "context": new_diary.context,
         "emotion": new_diary.emotion,
         "value": new_diary.value,
