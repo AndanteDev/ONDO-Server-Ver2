@@ -15,7 +15,7 @@ from ..dto.diary import (
     DiaryUpdateRequestDto,
     DiaryUpdateResponseDto,
 )
-from ..service.diary_service import get_all_diaries
+from ..service.diary_service import get_all_diaries, save_new_diary
 
 router = APIRouter()
 security = HTTPBearer()
@@ -28,6 +28,24 @@ security = HTTPBearer()
 )
 def list_diary(
     request: Request, year: Optional[int] = None, month: Optional[int] = None
-):
+) -> List[DiaryListResponseDto]:
     input_dto = DiaryListRequestDto(user_id=1, year=year, month=month)
     return get_all_diaries(input_dto)
+
+
+@router.post(
+    "/diary", response_model=DiaryCreateResponseDto, status_code=status.HTTP_201_CREATED
+)
+def create_new_diary(
+    request: Request, input_dto: DiaryCreateRequestDto
+) -> DiaryCreateResponseDto:
+
+    input_dto = DiaryCreateRequestDto(
+        user_id=1,
+        context=input_dto.context,
+        emotion=input_dto.emotion,
+        value=input_dto.value,
+        date=input_dto.date,
+        photos=input_dto.photos,
+    )
+    return save_new_diary(input_dto)
