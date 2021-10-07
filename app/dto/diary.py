@@ -5,12 +5,11 @@ from fastapi import File, UploadFile
 
 # request
 class DiaryCreateRequestDto(BaseModel):
-    user_id: int
     context: str
     emotion: Emotion
     value: float
     date: str
-    photos: Optional[List[UploadFile]] = []
+    photos: Optional[List[str]] = []
 
 
 class DiaryListRequestDto(BaseModel):
