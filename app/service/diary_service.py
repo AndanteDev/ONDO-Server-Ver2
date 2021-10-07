@@ -52,17 +52,10 @@ def save_new_diary(
     for photo in input_dto.photos:
         created_photos.append(photo)
 
-    response = {
-        "diary_id": new_diary.diary_id,
-        "context": new_diary.context,
-        "emotion": new_diary.emotion,
-        "value": new_diary.value,
-        "date": str(new_diary.date),
-        "created_at": str(new_diary.created_at),
-        "photos": created_photos,
-    }
+    new_diary.photos = created_photos
+    response = new_diary.to_dict()
 
-    return response
+    return DiaryCreateResponseDto(**response)
 
 
 def get_all_diaries(input_dto: DiaryListRequestDto) -> DiaryListResponseDto:
