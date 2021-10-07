@@ -42,11 +42,4 @@ def create_new_diary(
 
     user_id = 1
 
-    input_dto = DiaryCreateRequestDto(
-        context=input_dto.context,
-        emotion=input_dto.emotion,
-        value=input_dto.value,
-        date=input_dto.date,
-        photos=input_dto.photos,
-    )
     return save_new_diary(user_id, input_dto)
