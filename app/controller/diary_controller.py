@@ -25,6 +25,7 @@ security = HTTPBearer()
     "/diary",
     response_model=List[DiaryListResponseDto],
     status_code=status.HTTP_200_OK,
+    tags=["diary"],
 )
 def list_diary(
     request: Request, year: Optional[int] = None, month: Optional[int] = None
@@ -34,7 +35,10 @@ def list_diary(
 
 
 @router.post(
-    "/diary", response_model=DiaryCreateResponseDto, status_code=status.HTTP_201_CREATED
+    "/diary",
+    response_model=DiaryCreateResponseDto,
+    status_code=status.HTTP_201_CREATED,
+    tags=["diary"],
 )
 def create_new_diary(
     request: Request, input_dto: DiaryCreateRequestDto
