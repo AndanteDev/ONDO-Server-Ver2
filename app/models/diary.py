@@ -31,6 +31,19 @@ class Diary(Base):
         self.value = value
         self.date = date
         self.created_at = datetime.now()
+        self.photos = []
+
+    def to_dict(self):
+        return {
+            "diary_id": self.diary_id,
+            "user_id": self.user_id,
+            "context": self.context,
+            "emotion": self.emotion,
+            "value": self.value,
+            "date": str(self.date),
+            "created_at": str(self.created_at),
+            "photos": self.photos,
+        }
 
     def __repr__(self):
         return "<Diary '{},{}'>".format(self.user_id, self.date)
