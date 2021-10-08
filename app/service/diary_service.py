@@ -15,6 +15,8 @@ from ..dto.diary import (
     DiaryUpdateResponseDto,
 )
 from datetime import datetime
+from typing import Optional, List
+from fastapi import File, UploadFile
 
 
 def save_changes(data):
@@ -26,7 +28,7 @@ def save_changes(data):
 
 
 def save_new_diary(
-    user_id: int, input_dto: DiaryCreateRequestDto
+    user_id: int, input_dto: DiaryCreateRequestDto, photos: List[UploadFile] = File(...)
 ) -> DiaryCreateResponseDto:
 
     today_diary = (
@@ -49,8 +51,8 @@ def save_new_diary(
         pass
 
     created_photos = []
-    for photo in input_dto.photos:
-        created_photos.append(photo)
+    for photo in photos:
+        created_photos.append(photo.filename)
 
     new_diary.photos = created_photos
     response = new_diary.to_dict()
