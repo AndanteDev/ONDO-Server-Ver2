@@ -1,6 +1,7 @@
 from typing import Optional, List
 from starlette import status
 from fastapi import APIRouter, Request, Security
+from fastapi import File, UploadFile, Form
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from ..dto.diary import (
     DiaryCardListResponseDto,
@@ -16,6 +17,7 @@ from ..dto.diary import (
     DiaryUpdateResponseDto,
 )
 from ..service.diary_service import get_all_diaries, save_new_diary
+from ..models.diary import Emotion
 
 router = APIRouter()
 security = HTTPBearer()
@@ -41,9 +43,17 @@ def list_diary(
     tags=["diary"],
 )
 def create_new_diary(
-    request: Request, input_dto: DiaryCreateRequestDto
+    request: Request,
+    context: str = Form(...),
+    emotion: Emotion = Form(...),
+    value: float = Form(...),
+    date: str = Form(...),
+    photos: List[UploadFile] = File(...),
 ) -> DiaryCreateResponseDto:
 
     user_id = 1
+    input_dto = DiaryCreateRequestDto(
+        context=context, emotion=emotion, value=value, date=date
+    )
 
-    return save_new_diary(user_id, input_dto)
+    return save_new_diary(user_id, input_dto, photos)
