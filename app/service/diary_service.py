@@ -1,6 +1,7 @@
 from ..db.session import db_session
 from ..models.diary import Diary
 from ..models.photo import Photo
+from ..utils.util import Util
 from ..dto.diary import (
     DiaryCardListResponseDto,
     DiaryCountResponseDto,
@@ -17,6 +18,9 @@ from ..dto.diary import (
 from datetime import datetime
 from typing import Optional, List
 from fastapi import File, UploadFile
+from werkzeug.utils import secure_filename
+import random
+import string
 
 
 def save_changes(data):
@@ -51,8 +55,27 @@ def save_new_diary(
         pass
 
     created_photos = []
-    for photo in photos:
-        created_photos.append(photo.filename)
+
+    string_pool = string.ascii_letters + string.digits
+
+    try:
+
+        for photo in photos:
+            extension = secure_filename(photo.filename).split(".")[1]
+            file = photo.file
+
+            filename = (
+                str(datetime.now()).replace(" ", "").replace(".", "")
+                + "".join([random.choice(string_pool) for _ in range(10)])
+                + "."
+                + extension
+            )
+
+            url = Util.s3upload(file, filename)
+
+            created_photos.append(url)
+    except:
+        pass
 
     new_diary.photos = created_photos
     response = new_diary.to_dict()
