@@ -95,6 +95,7 @@ def get_all_diaries(input_dto: DiaryListRequestDto) -> DiaryListResponseDto:
         diaries = (
             db_session.query(Diary.diary_id, Diary.date)
             .filter(Diary.date.between(start, end))
+            .order_by(Diary.date)
             .all()
         )
     elif year != None and month == None:
@@ -103,10 +104,13 @@ def get_all_diaries(input_dto: DiaryListRequestDto) -> DiaryListResponseDto:
         diaries = (
             db_session.query(Diary.diary_id, Diary.date)
             .filter(Diary.date.between(start, end))
+            .order_by(Diary.date)
             .all()
         )
     else:
-        diaries = db_session.query(Diary.diary_id, Diary.date).all()
+        diaries = (
+            db_session.query(Diary.diary_id, Diary.date).order_by(Diary.date).all()
+        )
 
     diary = [{"diary_id": diary.diary_id, "date": str(diary.date)} for diary in diaries]
 
