@@ -39,7 +39,16 @@ class TodayDiaryAlreadyExistsException(APIException):
 class FailToSaveChangeException(APIException):
     def __init__(self, ex: Exception = None):
         super().__init__(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Fail to save change, Try again",
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Fail to save change. Try again",
+            ex=ex,
+        )
+
+
+class FailToUploadImageFileException(APIException):
+    def __init__(self, ex: Exception = None):
+        super().__init__(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Fail to upload Image. Try again",
             ex=ex,
         )
