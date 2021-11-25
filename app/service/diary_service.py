@@ -2,6 +2,11 @@ from ..db.session import db_session
 from ..models.diary import Diary
 from ..models.photo import Photo
 from ..utils.util import Util
+from ..utils.exceptions import (
+    FailToSaveChangeException,
+    TodayDiaryAlreadyExistsException,
+    FailToUploadImageFileException,
+)
 from ..dto.diary import (
     DiaryCardListResponseDto,
     DiaryCountResponseDto,
@@ -28,7 +33,15 @@ def save_changes(data):
         db_session.add(data)
         db_session.commit()
     except Exception as e:
-        print(e)
+        raise FailToSaveChangeException()
+
+
+def delete_data(data):
+    try:
+        db_session.delete(data)
+        db_session.commit()
+    except Exception as e:
+        raise FailToSaveChangeException()
 
 
 def save_new_diary(
@@ -36,10 +49,13 @@ def save_new_diary(
 ) -> DiaryCreateResponseDto:
 
     today_diary = (
-        db_session.query(Diary).filter(Diary.created_at == datetime.now()).first()
+        db_session.query(Diary)
+        .filter(Diary.user_id == user_id)
+        .filter(Diary.date == input_dto.date)
+        .first()
     )
 
-    if not today_diary:
+    if today_diary is None:
 
         new_diary = Diary(
             user_id,
@@ -52,16 +68,19 @@ def save_new_diary(
         save_changes(new_diary)
 
     else:
-        pass
+        raise TodayDiaryAlreadyExistsException()
 
     created_photos = []
 
     string_pool = string.ascii_letters + string.digits
 
+    if len(photos) > 3:
+        photos = photos[:3]
+
     try:
 
         for photo in photos:
-            extension = secure_filename(photo.filename).split(".")[1]
+            extension = secure_filename(photo.filename).split(".")[-1]
             file = photo.file
 
             filename = (
@@ -77,7 +96,8 @@ def save_new_diary(
 
             created_photos.append(url)
     except:
-        pass
+        delete_data(new_diary)
+        raise FailToUploadImageFileException()
 
     new_diary.photos = created_photos
     response = new_diary.to_dict()
