@@ -99,7 +99,7 @@ def save_new_diary(
             created_photos.append(url)
     except:
         delete_data(new_diary)
-        raise HTTPException(status_code=409, detail="Fail to upload Image. Try again")
+        raise HTTPException(status_code=500, detail="Fail to upload Image. Try again")
 
     new_diary.photos = created_photos
     response = new_diary.to_dict()
@@ -108,6 +108,7 @@ def save_new_diary(
 
 
 def get_all_diaries(input_dto: DiaryListRequestDto) -> DiaryListResponseDto:
+
     year = input_dto.year
     month = input_dto.month
 
