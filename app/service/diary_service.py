@@ -26,6 +26,7 @@ from fastapi import File, UploadFile, HTTPException
 from werkzeug.utils import secure_filename
 import random
 import string
+from starlette import status
 
 
 def save_changes(data):
@@ -142,10 +143,26 @@ def get_all_diaries(input_dto: DiaryListRequestDto) -> DiaryListResponseDto:
     return diary
 
 
-def get_a_diary(
-    diary_id: int, input_dto: DiaryRetrieveRequestDto
-) -> DiaryRetrieveResponseDto:
-    pass
+def get_a_diary(diary_id: int) -> DiaryRetrieveResponseDto:
+
+    diary = db_session.query(Diary).filter(Diary.diary_id == diary_id).first()
+
+    photos = [
+        url[0]
+        for url in db_session.query(Photo.url).filter(Photo.diary_id == diary_id).all()
+    ]
+
+    response = {
+        "diary_id": diary.diary_id,
+        "context": diary.context,
+        "emotion": int(diary.emotion),
+        "value": diary.value,
+        "date": str(diary.date),
+        "created_at": str(diary.created_at),
+        "photos": photos,
+    }
+
+    return DiaryRetrieveResponseDto(**response)
 
 
 def delete_diary(diary_id: int) -> DiaryDeleteResponseDto:
