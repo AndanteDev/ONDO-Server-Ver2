@@ -16,7 +16,7 @@ from ..dto.diary import (
     DiaryUpdateRequestDto,
     DiaryUpdateResponseDto,
 )
-from ..service.diary_service import get_all_diaries, save_new_diary
+from ..service.diary_service import get_all_diaries, save_new_diary, get_a_diary
 from ..models.diary import Emotion
 
 router = APIRouter()
@@ -34,6 +34,18 @@ def list_diary(
 ) -> List[DiaryListResponseDto]:
     input_dto = DiaryListRequestDto(user_id=1, year=year, month=month)
     return get_all_diaries(input_dto)
+
+
+@router.get(
+    "/diary/{diary_id}",
+    response_model=DiaryRetrieveResponseDto,
+    status_code=status.HTTP_200_OK,
+    tags=["diary"],
+)
+def retrieve_diary(
+    diary_id: str,
+) -> DiaryRetrieveResponseDto:
+    return get_a_diary(diary_id)
 
 
 @router.post(
