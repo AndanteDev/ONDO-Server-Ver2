@@ -22,7 +22,7 @@ from ..dto.diary import (
 )
 from datetime import datetime
 from typing import Optional, List
-from fastapi import File, UploadFile
+from fastapi import File, UploadFile, HTTPException
 from werkzeug.utils import secure_filename
 import random
 import string
@@ -33,7 +33,7 @@ def save_changes(data):
         db_session.add(data)
         db_session.commit()
     except Exception as e:
-        raise FailToSaveChangeException()
+        raise HTTPException(status_code=409, detail="Fail to save change. Try again")
 
 
 def delete_data(data):
@@ -41,7 +41,7 @@ def delete_data(data):
         db_session.delete(data)
         db_session.commit()
     except Exception as e:
-        raise FailToSaveChangeException()
+        raise HTTPException(status_code=409, detail="Fail to save change. Try again")
 
 
 def save_new_diary(
@@ -68,7 +68,9 @@ def save_new_diary(
         save_changes(new_diary)
 
     else:
-        raise TodayDiaryAlreadyExistsException()
+        raise HTTPException(
+            status_code=409, detail="Today diary already exists. Try tomorrow"
+        )
 
     created_photos = []
 
@@ -97,7 +99,7 @@ def save_new_diary(
             created_photos.append(url)
     except:
         delete_data(new_diary)
-        raise FailToUploadImageFileException()
+        raise HTTPException(status_code=409, detail="Fail to upload Image. Try again")
 
     new_diary.photos = created_photos
     response = new_diary.to_dict()
