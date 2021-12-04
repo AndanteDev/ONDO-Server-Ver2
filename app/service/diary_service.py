@@ -147,6 +147,9 @@ def get_a_diary(diary_id: int) -> DiaryRetrieveResponseDto:
 
     diary = db_session.query(Diary).filter(Diary.diary_id == diary_id).first()
 
+    if not diary:
+        raise HTTPException(status_code=404, detail="Diary not found")
+
     photos = [
         url[0]
         for url in db_session.query(Photo.url).filter(Photo.diary_id == diary_id).all()
