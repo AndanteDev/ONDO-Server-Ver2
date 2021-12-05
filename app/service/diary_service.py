@@ -26,7 +26,7 @@ from fastapi import File, UploadFile, HTTPException
 from werkzeug.utils import secure_filename
 import random
 import string
-from starlette import status
+from starlette import responses, status
 
 
 def save_changes(data):
@@ -148,7 +148,7 @@ def get_a_diary(diary_id: int) -> DiaryRetrieveResponseDto:
     diary = db_session.query(Diary).filter(Diary.diary_id == diary_id).first()
 
     if not diary:
-        raise HTTPException(status_code=404, detail="Diary not found")
+        raise HTTPException(status_code=404, detail="Diary not found.")
 
     photos = [
         url[0]
@@ -169,7 +169,17 @@ def get_a_diary(diary_id: int) -> DiaryRetrieveResponseDto:
 
 
 def delete_diary(diary_id: int) -> DiaryDeleteResponseDto:
-    pass
+
+    diary = db_session.query(Diary).filter(Diary.diary_id == diary_id).first()
+
+    if not diary:
+        raise HTTPException(status_code=404, detail="Diary not found.")
+
+    delete_data(diary)
+
+    response = {"message": "Successfully deleted"}
+
+    return response
 
 
 def update_diary(
