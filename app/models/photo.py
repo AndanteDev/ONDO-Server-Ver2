@@ -13,10 +13,11 @@ class Photo(Base):
     filename = Column(String(256), nullable=False)
     url = Column(String(256), nullable=False)
 
-    def __init__(self, diary_id, url):
+    def __init__(self, diary_id, filename, url):
         self.photo_id = None
         self.diary_id = diary_id
+        self.filename = filename
         self.url = url
 
     def __repr__(self):
-        return "<Photo '{}'>".format(self.url)
+        return "<Photo '{}'>".format(self.filename)
