@@ -10,6 +10,7 @@ class Photo(Base):
 
     photo_id = Column(Integer, primary_key=True, autoincrement=True)
     diary_id = Column(ForeignKey(Diary.diary_id, ondelete="CASCADE"), nullable=False)
+    filename = Column(String(256), nullable=False)
     url = Column(String(256), nullable=False)
 
     def __init__(self, diary_id, url):
