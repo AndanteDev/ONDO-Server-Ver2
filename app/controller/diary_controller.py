@@ -1,4 +1,5 @@
 from typing import Optional, List
+from sqlalchemy.sql.expression import delete
 from starlette import status
 from fastapi import APIRouter, Request, Security
 from fastapi import File, UploadFile, Form
@@ -16,7 +17,12 @@ from ..dto.diary import (
     DiaryUpdateRequestDto,
     DiaryUpdateResponseDto,
 )
-from ..service.diary_service import get_all_diaries, save_new_diary, get_a_diary
+from ..service.diary_service import (
+    get_all_diaries,
+    save_new_diary,
+    get_a_diary,
+    delete_diary,
+)
 from ..models.diary import Emotion
 
 router = APIRouter()
@@ -43,7 +49,7 @@ def list_diary(
     tags=["diary"],
 )
 def retrieve_diary(
-    diary_id: str,
+    diary_id: int,
 ) -> DiaryRetrieveResponseDto:
     return get_a_diary(diary_id)
 
@@ -69,3 +75,15 @@ def create_new_diary(
     )
 
     return save_new_diary(user_id, input_dto, photos)
+
+
+@router.delete(
+    "/diary/{diary_id}",
+    response_model=DiaryDeleteResponseDto,
+    status_code=status.HTTP_200_OK,
+    tags=["diary"],
+)
+def delete_a_diary(
+    diary_id: int,
+) -> DiaryDeleteResponseDto:
+    return delete_diary(diary_id)
