@@ -94,7 +94,7 @@ def save_new_diary(
             )
 
             url = Util.s3upload(file, filename)
-            new_photo = Photo(diary_id=new_diary.diary_id, url=url)
+            new_photo = Photo(diary_id=new_diary.diary_id, filename=filename, url=url)
             save_changes(new_photo)
 
             created_photos.append(url)
