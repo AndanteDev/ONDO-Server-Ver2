@@ -175,6 +175,11 @@ def delete_diary(diary_id: int) -> DiaryDeleteResponseDto:
     if not diary:
         raise HTTPException(status_code=404, detail="Diary not found.")
 
+    photos = db_session.query(Photo.filename).filter(Photo.diary_id == diary_id).all()
+
+    for photo in photos:
+        Util.s3delete(photo[0])
+
     delete_data(diary)
 
     response = {"message": "Successfully deleted"}
