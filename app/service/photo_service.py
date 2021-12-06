@@ -11,7 +11,7 @@ def get_random_photo(user_id) -> RandomPhotoRetrieveDto:
 
     photos = (
         db_session.query(Photo.url)
-        .join(Diary.diary_id)
+        .outerjoin(Diary, Diary.diary_id == Photo.diary_id)
         .filter(Diary.user_id == user_id)
         .all()
     )
