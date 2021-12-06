@@ -16,6 +16,9 @@ def get_random_photo(user_id) -> RandomPhotoRetrieveDto:
         .all()
     )
 
+    if photos == []:
+        raise HTTPException(status_code=404, detail="You don't have any photo!")
+
     idx = random.randrange(0, len(photos))
 
     response = {"url": photos[idx][0]}
