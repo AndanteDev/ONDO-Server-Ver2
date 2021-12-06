@@ -67,7 +67,7 @@ def create_new_diary(
     emotion: Emotion = Form(...),
     value: float = Form(...),
     date: str = Form(...),
-    photos: List[UploadFile] = File(...),
+    photos: Optional[List[UploadFile]] = File([]),
 ) -> DiaryCreateResponseDto:
 
     user_id = 1
