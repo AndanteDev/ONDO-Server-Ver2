@@ -22,6 +22,7 @@ from ..service.diary_service import (
     save_new_diary,
     get_a_diary,
     delete_diary,
+    count_diary,
 )
 from ..models.diary import Emotion
 
@@ -52,6 +53,11 @@ def retrieve_diary(
     diary_id: int,
 ) -> DiaryRetrieveResponseDto:
     return get_a_diary(diary_id)
+
+
+@router.get("/count", status_code=status.HTTP_200_OK, tags=["diary"])
+def count_my_diaries(request: Request) -> DiaryCountResponseDto:
+    return count_diary(1)
 
 
 @router.post(
