@@ -4,6 +4,9 @@ from starlette import status
 from fastapi import APIRouter, Request, Security
 from fastapi import File, UploadFile, Form
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+
+from app.dto.photo import RandomPhotoRetrieveDto
+from app.service.photo_service import get_random_photo
 from ..dto.emotion import EmotionRetrieveRequestDto, EmotionRetrieveResponseDto
 from ..dto.diary import DiaryCountResponseDto
 from ..service.emotion_service import get_emotions
@@ -28,3 +31,9 @@ def list_emotions(day: Optional[int] = None) -> List[EmotionRetrieveResponseDto]
     user_id = 1
 
     return get_emotions(user_id, input_dto)
+
+
+@router.get("/random-photo", response_model=RandomPhotoRetrieveDto, tags=["main_page"])
+def get_a_random_photo(reqeust: Request):
+    user_id = 1
+    return get_random_photo(user_id)
