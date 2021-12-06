@@ -18,7 +18,6 @@ def get_emotions(
             .filter(Diary.user_id == user_id)
             .order_by(Diary.date.desc())
             .limit(day)
-            .order_by(Diary.date)
             .all()
         )
 
@@ -33,9 +32,7 @@ def get_emotions(
 
     response = [
         {"emotion": emotion.emotion, "value": emotion.value, "date": str(emotion.date)}
-        for emotion in emotions
+        for emotion in emotions[::-1]
     ]
-
-    response = EmotionRetrieveResponseDto(**response)
 
     return response
