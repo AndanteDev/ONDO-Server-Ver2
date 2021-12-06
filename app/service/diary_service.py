@@ -194,4 +194,9 @@ def update_diary(
 
 
 def count_diary(user_id: int) -> DiaryCountResponseDto:
-    pass
+
+    count = db_session.query(Diary).filter(Diary.user_id == user_id).count()
+
+    response = {"count": count}
+
+    return response
