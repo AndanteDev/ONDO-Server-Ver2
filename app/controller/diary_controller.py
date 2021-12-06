@@ -55,11 +55,6 @@ def retrieve_diary(
     return get_a_diary(diary_id)
 
 
-@router.get("/count", status_code=status.HTTP_200_OK, tags=["main_page"])
-def count_my_diaries(request: Request) -> DiaryCountResponseDto:
-    return count_diary(1)
-
-
 @router.post(
     "/diary",
     response_model=DiaryCreateResponseDto,
