@@ -195,7 +195,3 @@ def update_diary(
 
 def count_diary(user_id: int) -> DiaryCountResponseDto:
     pass
-
-
-def diary_card_list(user_id: int) -> DiaryCardListResponseDto:
-    pass
