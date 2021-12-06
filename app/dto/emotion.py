@@ -10,3 +10,4 @@ class EmotionRetrieveRequestDto(BaseModel):
 class EmotionRetrieveResponseDto(BaseModel):
     emotion: Emotion
     value: float
+    date: str
