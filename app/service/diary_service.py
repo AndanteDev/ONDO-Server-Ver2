@@ -116,17 +116,27 @@ def get_all_diaries(input_dto: DiaryListRequestDto) -> DiaryListResponseDto:
     diary = []
 
     if year != None and month != None:
+
         start = str(year) + "-" + str(month).zfill(2) + "-01"
-        end = str(year) + "-" + str(int(month) + 1).zfill(2) + "-01"
+        end_of_month = (
+            "-28"
+            if month == 2
+            else "-31"
+            if month in [1, 3, 5, 7, 8, 10, 12]
+            else "-30"
+        )
+        end = str(year) + "-" + str(month).zfill(2) + end_of_month
+
         diaries = (
             db_session.query(Diary.diary_id, Diary.date)
             .filter(Diary.date.between(start, end))
             .order_by(Diary.date)
             .all()
         )
+        print(start, end)
     elif year != None and month == None:
         start = str(year) + "-01-01"
-        end = str(int(year) + 1) + "-01-01"
+        end = str(year) + "-12-31"
         diaries = (
             db_session.query(Diary.diary_id, Diary.date)
             .filter(Diary.date.between(start, end))
